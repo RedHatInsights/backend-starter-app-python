@@ -2,7 +2,7 @@
 The purpose of this is to provide a fully functional implementation of simple applications that are fully integrated with the console.redhat.com platform, to serve as an example for new teams onboarding into the platform to create their own applications.
 
 ## Installing Django
-To install Django you need to have python and pip installed on your machine. Once you have those all you will want to create and activate a virtual environment for the app and install Django.
+To install Django you need to have python and pip installed on your machine. We recommend python 3.10, but any version 3.6+ will work too. Once you have those all you will want to create and activate a virtual environment for the app and install Django.
 ```bash
 # Create the virtual environment
 $ python -m venv path/to/venv
