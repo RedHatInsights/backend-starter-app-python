@@ -35,3 +35,19 @@ Quit the server with CONTROL-C.
 ```
 
 Navigate to that address, or control click the link in the console, and you should see that Django was installed correctly.
+
+## Installing rh-pre-commit
+We've added a script to install the [rh-pre-commit](https://gitlab.corp.redhat.com/infosec-public/developer-workbench/tools/-/tree/main/rh-pre-commit) to this repo. This will prevent you from accidentally committing credentials, tokens, or other secrets to your repo. To install the pre-commit run:
+```bash
+$ make install_pre_commit
+```
+Follow the prompt to receive a token and complete the install.
+
+Once complete you can test the precommit by running in the repo:
+```bash
+# Note: before testing remove the gitleaks:allow comment.
+# It is there to prevent false positives when committing changes to the README
+echo 'secret="EdnBsJW59yS6bGxhXa5+KkgCr1HKFv5g"' > secret # gitleaks:allow
+git add secret 
+git commit
+```
