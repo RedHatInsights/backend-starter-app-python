@@ -45,7 +45,9 @@ Follow the prompt to receive a token and complete the install.
 
 Once complete you can test the precommit by running in the repo:
 ```bash
-echo 'secret="EdnBsJW59yS6bGxhXa5+KkgCr1HKFv5g"' > secret
+# Note: before testing remove the gitleaks:allow comment.
+# It is there to prevent false positives when committing changes to the README
+echo 'secret="EdnBsJW59yS6bGxhXa5+KkgCr1HKFv5g"' > secret # gitleaks:allow
 git add secret 
 git commit
 ```
