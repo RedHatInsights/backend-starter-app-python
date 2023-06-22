@@ -20,3 +20,7 @@ jobs:
         python-version: "3.10"
     - name: Dummy step
       run: echo "hello world"
+    - name: Django test
+      run: |
+        coverage run --source="." manage.py test
+        coverage report

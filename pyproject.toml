@@ -6,6 +6,7 @@ dependencies = [
     "django",
     "psycopg2",
     "pre-commit",
+    "coverage",
 ]
 
 [build-system]
