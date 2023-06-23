@@ -3,8 +3,9 @@ name = "backend-starter-app"
 description = "A barebones python app"
 version = "0.0.1"
 dependencies = [
-    "django",
-    "psycopg2",
+    "djangorestframework",
+    "markdown",
+    "django-filter"
 ]
 
 [project.optional-dependencies]
