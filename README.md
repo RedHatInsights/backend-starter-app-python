@@ -48,6 +48,23 @@ Once complete you can test the precommit by running in the repo:
 # Note: before testing remove the gitleaks:allow comment.
 # It is there to prevent false positives when committing changes to the README
 echo 'secret="EdnBsJW59yS6bGxhXa5+KkgCr1HKFv5g"' > secret # gitleaks:allow
-git add secret 
+git add secret
 git commit
 ```
+
+## Installing the rest of the pre-commits
+We are using the python package [pre-commit](https://pre-commit.com/) to handle the setup and maintenance pre-commit hooks. We have pre-configured a few commit hooks but we encourage modifying the `.pre-commit-config.yaml` to fit your project as needed. If you don't already have a virtual environment setup, you can use the following commands to do that.
+```bash
+# Create the virtual environment
+$ python -m venv path/to/venv
+# Activate the virtual environment
+$ source path/to/venv/bin/activate
+```
+Once you have sourced your virtual environment you can install the pre-commit package and the hooks themselves with the following commands:
+```bash
+# Install pre-commit package
+$ python -m pip install pre-commit
+# Install pre-commit hooks
+$ pre-commit install
+```
+Note: none of the hooks we provide are required but are just our recommendations.

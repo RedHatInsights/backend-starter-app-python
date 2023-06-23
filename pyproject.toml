@@ -7,6 +7,9 @@ dependencies = [
     "psycopg2",
 ]
 
+[project.optional-dependencies]
+dev = ["pre-commit", "coverage"]
+
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
