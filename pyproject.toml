@@ -5,9 +5,10 @@ version = "0.0.1"
 dependencies = [
     "django",
     "psycopg2",
-    "pre-commit",
-    "coverage",
 ]
+
+[project.optional-dependencies]
+dev = ["pre-commit", "coverage"]
 
 [build-system]
 requires = ["setuptools"]
