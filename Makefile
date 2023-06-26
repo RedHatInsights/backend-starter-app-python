@@ -1,5 +1,6 @@
 TEMPDIR_INFOSECTOOLS = /tmp/infosec-dev-tools
 VENV=.venv
+COVERAGE_REPORT_FORMAT = 'html'
 
 run: venv_check
 	python manage.py runserver
@@ -36,6 +37,19 @@ endif
 install: venv_check
 	pip install -e .
 
+install_dev: venv_check
+	pip install -e .[dev]
+
 clean:
 	rm -rf __pycache__
 	find . -name "*.pyc" -exec rm -f {} \;
+
+test: venv_check install_dev
+	python manage.py test
+
+coverage: venv_check install_dev
+	coverage run --source="." manage.py test
+	coverage $(COVERAGE_REPORT_FORMAT)
+
+coverage-ci: COVERAGE_REPORT_FORMAT=xml
+coverage-ci: coverage

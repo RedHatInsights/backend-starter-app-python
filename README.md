@@ -48,7 +48,38 @@ Quit the server with CONTROL-C.
 
 Navigate to http://127.0.0.1:8080 to access to the Django application's web console.
 
-## Installing rh-pre-commit
+### Running tests
+
+Tests are run using the `test` recipe:
+
+```
+make test
+```
+
+This would run the tests using the default configured test runner using Django `test` command from `manage.py` script.
+
+### Generating code coverage
+
+In case you want to generate an HTML report of your code coverage, you can do so by using the `coverage` recipe
+
+```
+make coverage
+```
+
+This will:
+- Install the development depenencies (to install [coverage.py])
+- Run the tests
+- Generate a report (by default, the report format will be HTML).
+
+you can override the report format to either XML, JSON or HTML format using the `COVERAGE_REPORT_FORMAT` variable:
+
+```
+make COVERAGE_REPORT_FORMAT=json coverage
+```
+
+To check the available supported coverage formats, check [Coverage.py docs](https://coverage.readthedocs.io/en/7.2.7/#capabilities)
+
+### Installing rh-pre-commit
 We've added a recipe to install the [rh-pre-commit](https://gitlab.corp.redhat.com/infosec-public/developer-workbench/tools/-/tree/main/rh-pre-commit) to this repo. This will prevent you from accidentally committing credentials, tokens, or other secrets to your repo. To install the pre-commit run:
 ```bash
 $ make install_pre_commit
@@ -64,19 +95,17 @@ git add secret
 git commit
 ```
 
-## Installing the rest of the pre-commits
+### Installing the rest of the pre-commits
 We are using the python package [pre-commit](https://pre-commit.com/) to handle the setup and maintenance pre-commit hooks. We have pre-configured a few commit hooks but we encourage modifying the `.pre-commit-config.yaml` to fit your project as needed. If you don't already have a virtual environment setup, you can use the following commands to do that.
 ```bash
 # Create the virtual environment
-$ python -m venv path/to/venv
+$ make venv_create
 # Activate the virtual environment
-$ source path/to/venv/bin/activate
+$ source .venv/bin/activate
 ```
 Once you have sourced your virtual environment you can install the pre-commit package and the hooks themselves with the following commands:
 ```bash
-# Install pre-commit package
-$ python -m pip install pre-commit
-# Install pre-commit hooks
-$ pre-commit install
+# Install pre-commit hooks by installing the project's dependencies and development dependencies
+$ make install_dev
 ```
 Note: none of the hooks we provide are required but are just our recommendations.
