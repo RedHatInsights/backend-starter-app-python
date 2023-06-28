@@ -1,5 +1,5 @@
 #!/bin/bash
-# shellcheck disable=SC2034
+# shellcheck disable=SC2034,SC1091
 
 # --------------------------------------------
 # Options that must be configured by app owner
@@ -18,13 +18,11 @@ IQE_CJI_TIMEOUT="30m"  # This is the time to wait for smoke test to complete or 
 # https://raw.githubusercontent.com/RedHatInsights/bonfire/master/cicd/bootstrap.sh
 # This script automates the install / config of bonfire
 CICD_URL=https://raw.githubusercontent.com/RedHatInsights/bonfire/master/cicd
-# shellcheck disable=SC1091
 curl -s "$CICD_URL"/bootstrap.sh > .cicd_bootstrap.sh && source .cicd_bootstrap.sh
 
 # The contents of build.sh can be found at:
 # https://raw.githubusercontent.com/RedHatInsights/bonfire/master/cicd/build.sh
 # This script is used to build the image that is used in the PR Check
-# shellcheck disable=SC1091
 source "$CICD_ROOT"/build.sh
 
 # Your APP's unit tests should be run in the unit_test.sh script.  Two different
@@ -37,7 +35,6 @@ source "$CICD_ROOT"/build.sh
 #
 # One thing to note is that the unit test run results are expected to be in a junit XML format,
 # in the examples we demonstrate how to create a 'dummy result file' as a temporary work-around.
-# shellcheck disable=SC1091
 source "$APP_ROOT"/unit_test.sh
 
 # The contents of this script can be found at:
@@ -45,7 +42,6 @@ source "$APP_ROOT"/unit_test.sh
 # This script is used to deploy the ephemeral environment for smoke tests.
 # The manual steps for this can be found in:
 # https://internal.cloud.redhat.com/docs/devprod/ephemeral/02-deploying/
-# shellcheck disable=SC1091
 source "$CICD_ROOT"/deploy_ephemeral_env.sh
 
 # (DEPRECATED!) Run smoke tests using smoke_test.sh
@@ -60,11 +56,9 @@ source "$CICD_ROOT"/deploy_ephemeral_env.sh
 # Run smoke tests using a ClowdJobInvocation (preferred)
 # The contents of this script can be found at:
 # https://raw.githubusercontent.com/RedHatInsights/bonfire/master/cicd/cji_smoke_test.sh
-# shellcheck disable=SC1091
 source "$CICD_ROOT"/cji_smoke_test.sh
 
 # Post a comment with test run IDs to the PR
 # The contents of this script can be found at:
 # https://raw.githubusercontent.com/RedHatInsights/bonfire/master/cicd/post_test_results.sh
-# shellcheck disable=SC1091
 source "$CICD_ROOT"/post_test_results.sh

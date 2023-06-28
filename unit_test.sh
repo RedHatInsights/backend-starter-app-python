@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC1091
 
 # go get stuff...
 
@@ -9,7 +10,6 @@ VENV=.venv
 
 set +e
 make venv_create
-# shellcheck disable=SC1091
 source "$VENV"/bin/activate
 make coverage
 result=$?
@@ -18,7 +18,6 @@ set -e
 # Evaluate the test result.
 
 # If you set up a python virtual env for your tests, move back to the bonfire virtual env...
-# shellcheck disable=SC1091
 source .bonfire_venv/bin/activate
 
 # If your unit tests store junit xml results, you should store them in a file matching format `artifacts/junit-*.xml`
