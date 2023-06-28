@@ -1,6 +1,12 @@
 TEMPDIR_INFOSECTOOLS = /tmp/infosec-dev-tools
 VENV=.venv
 COVERAGE_REPORT_FORMAT = 'html'
+IMAGE=quay.io/${USER}/backend-starter-app:latest
+DOCKERFILE=Dockerfile
+CONTAINER_WEBPORT=8000
+HOST_WEBPORT=${CONTAINER_WEBPORT}
+CONTEXT=.
+CONTAINER_ENGINE=podman
 
 run: venv_check
 	python manage.py runserver
@@ -53,3 +59,15 @@ coverage: venv_check install_dev
 
 coverage-ci: COVERAGE_REPORT_FORMAT=xml
 coverage-ci: coverage
+
+build-container:
+	${CONTAINER_ENGINE} build -t ${IMAGE} -f ${DOCKERFILE} ${CONTEXT}
+
+run-container:
+	${CONTAINER_ENGINE} run -it --rm -p ${HOST_WEBPORT}:${CONTAINER_WEBPORT} ${IMAGE} runserver 0.0.0.0:8000
+
+build-container-docker: CONTAINER_ENGINE=docker
+build-container-docker: build-container
+
+run-container-docker: CONTAINER_ENGINE=docker
+run-container-docker: run-container
