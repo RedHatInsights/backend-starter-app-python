@@ -7,6 +7,9 @@ CONTAINER_WEBPORT=8000
 HOST_WEBPORT=${CONTAINER_WEBPORT}
 CONTEXT=.
 CONTAINER_ENGINE=podman
+BONFIRE_CONFIG="$(PWD)/.bonfirecfg.yaml"
+CLOWDAPP_TEMPLATE=clowdapp.yaml
+CLOWDAPP_NAME=backend-starter-app-python
 
 run: venv_check
 	python manage.py runserver
@@ -71,3 +74,16 @@ build-container-docker: build-container
 
 run-container-docker: CONTAINER_ENGINE=docker
 run-container-docker: run-container
+
+push-image:
+	${CONTAINER_ENGINE} push ${IMAGE}
+
+bonfire_process:
+	bonfire process -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME) \
+		-p service/IMAGE=$(IMAGE) -n foo
+
+bonfire_write_config:
+	sed "s|##BONFIRE_REPODIR##|${PWD}|;s|##BONFIRE_APPNAME##|$(CLOWDAPP_NAME)|;s|##BONFIRE_CLOWDAPP_TEMPLATE##|$(CLOWDAPP_TEMPLATE)|" < templates/bonfire_config > $(BONFIRE_CONFIG)
+
+bonfire_deploy:
+	bonfire deploy -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME)

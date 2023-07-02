@@ -38,7 +38,6 @@ parameters:
   value: latest
 - name: IMAGE
   description: Image name
-  value: quay.io/cloudservices/compliance-backend
 - name: ENV_NAME
   description: ClowdEnv Name
 - name: REPLICAS_SERVICE
@@ -46,7 +45,7 @@ parameters:
   value: "1"
 - name: APP_NAME
   required: true
-  value: backend_starter_app_python
+  value: backend-starter-app-python
 - name: MEMORY_LIMIT_SERVICE
   value: 512Mi
 - name: MEMORY_REQUEST_SERVICE
