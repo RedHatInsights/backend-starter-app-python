@@ -64,7 +64,20 @@ Once onboarded, the user should be able to log into the Ephemeral cluster to res
 Reserve a target namespace in the Ephemeral namespace and save it for later:
 
 ```
-make bonfire_reserve_namespace)
+make bonfire_reserve_namespace
+bonfire namespace reserve
+2023-07-02 21:08:56 [    INFO] [          MainThread] Checking for existing reservations for 'Victoremepunto'
+2023-07-02 21:08:56 [    INFO] [          MainThread] checking for available namespaces to reserve...
+2023-07-02 21:08:57 [    INFO] [          MainThread] pool size limit is defined as 0 in 'default' pool
+2023-07-02 21:08:57 [    INFO] [          MainThread] processing namespace reservation
+2023-07-02 21:08:57 [    INFO] [          MainThread] running (pid 1771071): oc apply -f -
+2023-07-02 21:08:58 [    INFO] [         pid-1771071]  |stdout| namespacereservation.cloud.redhat.com/bonfire-reservation-12538be0 created
+2023-07-02 21:08:58 [    INFO] [          MainThread] waiting for reservation 'bonfire-reservation-12538be0' to get picked up by operator
+2023-07-02 21:08:58 [    INFO] [          MainThread] namespace 'ephemeral-cv17hi' is reserved by 'Victoremepunto' for '1h' from the default pool
+2023-07-02 21:08:58 [    INFO] [          MainThread] running (pid 1771118): oc project ephemeral-cv17hi
+2023-07-02 21:08:59 [    INFO] [         pid-1771118]  |stdout| Now using project "ephemeral-cv17hi" on server "https://api.c-rh-c-eph.8p0c.p1.openshiftapps.com:6443".
+2023-07-02 21:08:59 [    INFO] [          MainThread] namespace console url: https://console-openshift-console.apps.c-rh-c-eph.8p0c.p1.openshiftapps.com/k8s/cluster/projects/ephemeral-cv17hi
+ephemeral-cv17hi
 ```
 
 #### Building and pushing the backend starter application image
@@ -102,7 +115,7 @@ To generate the secret:
 
 - Head to Quay.io, log into your account, and click on your user's org.
 - Click on the left side on "Robot accounts" and create a new robot account
-- Provide a name for your robot account. **you will require this name later to refer to the secret on the ClowdEnvironment**
+- Provide a name for your robot account.
 - Select the `backend-starter-app-python` repository, you should only require `read` permissions.
 - Click on the recently created robot account, and select "Kubernetes secret".
 - Click on the link to download the secret in YAML format under "Step 1: Download secret" section.
@@ -116,7 +129,13 @@ You need to create this secret in the target namespace and configure it in the C
 
 ```
 oc create -f /path/to/your/secret.yaml -n "your-ephemeral-namespace"
+secret/vmugicag-somesecretname-pull-secret created
 ```
+
+Your secret's name is required, you can check it inside the YAML that contains the definition. It's probably in the format
+"your user id"-"secret name"-pull-secret
+
+You will require this name later to refer to the secret on the ClowdEnvironment
 
 - Edit the ClowdEnvironment and add the PullSecret to the list:
 
