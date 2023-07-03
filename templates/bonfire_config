@@ -1,0 +1,15 @@
+# Bonfire deployment configuration
+
+# Defines where to fetch the file that defines application configs
+appsFile:
+  host: gitlab
+  repo: insights-platform/cicd-common
+  path: bonfire_configs/ephemeral_apps.yaml
+
+apps:
+- name: ##BONFIRE_APPNAME##
+  components:
+    - name: service
+      host: local
+      repo: ##BONFIRE_REPODIR##
+      path: /##BONFIRE_CLOWDAPP_TEMPLATE##

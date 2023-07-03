@@ -1,12 +1,17 @@
 TEMPDIR_INFOSECTOOLS = /tmp/infosec-dev-tools
 VENV=.venv
 COVERAGE_REPORT_FORMAT = 'html'
-IMAGE=quay.io/${USER}/backend-starter-app:latest
+IMAGE=quay.io/${USER}/backend-starter-app-python
+IMAGE_TAG=latest
 DOCKERFILE=Dockerfile
 CONTAINER_WEBPORT=8000
 HOST_WEBPORT=${CONTAINER_WEBPORT}
 CONTEXT=.
 CONTAINER_ENGINE=podman
+BONFIRE_CONFIG=".bonfirecfg.yaml"
+CLOWDAPP_TEMPLATE=clowdapp.yaml
+CLOWDAPP_NAME=backend-starter-app-python
+NAMESPACE=''
 
 run: venv_check
 	python manage.py runserver
@@ -60,14 +65,40 @@ coverage: venv_check install_dev
 coverage-ci: COVERAGE_REPORT_FORMAT=xml
 coverage-ci: coverage
 
-build-container:
+build-image:
 	${CONTAINER_ENGINE} build -t ${IMAGE} -f ${DOCKERFILE} ${CONTEXT}
 
 run-container:
 	${CONTAINER_ENGINE} run -it --rm -p ${HOST_WEBPORT}:${CONTAINER_WEBPORT} ${IMAGE} runserver 0.0.0.0:8000
 
-build-container-docker: CONTAINER_ENGINE=docker
-build-container-docker: build-container
+build-image-docker: CONTAINER_ENGINE=docker
+build-image-docker: build-container
 
 run-container-docker: CONTAINER_ENGINE=docker
 run-container-docker: run-container
+
+push-image:
+	${CONTAINER_ENGINE} push ${IMAGE}
+
+push-image-docker: CONTAINER_ENGINE=docker
+push-image-docker: push-container
+
+bonfire_process: $(BONFIRE_CONFIG)
+	@bonfire process -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME) \
+		-p service/IMAGE=$(IMAGE) -p service/IMAGE_TAG=$(IMAGE_TAG) -n $(NAMESPACE)
+
+bonfire_write_config: $(BONFIRE_CONFIG)
+$(BONFIRE_CONFIG):
+	@sed "s|##BONFIRE_REPODIR##|${PWD}|;\
+	s|##BONFIRE_APPNAME##|$(CLOWDAPP_NAME)|;\
+	s|##BONFIRE_CLOWDAPP_TEMPLATE##|$(CLOWDAPP_TEMPLATE)|" < templates/bonfire_config > $(BONFIRE_CONFIG)
+
+bonfire_reserve_namespace:
+	bonfire namespace reserve
+
+bonfire_user_namespaces:
+	bonfire namespace list --mine
+
+bonfire_deploy: $(BONFIRE_CONFIG)
+	bonfire deploy -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME) \
+		-p service/IMAGE=$(IMAGE) -p service/IMAGE_TAG=$(IMAGE_TAG) -n $(NAMESPACE)
