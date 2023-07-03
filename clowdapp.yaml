@@ -1,0 +1,56 @@
+---
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: "${APP_NAME}"
+objects:
+- apiVersion: cloud.redhat.com/v1alpha1
+  kind: ClowdApp
+  metadata:
+    name: "${APP_NAME}"
+  spec:
+    envName: ${ENV_NAME}
+    database:
+      name: "${APP_NAME}"
+    deployments:
+    - name: service
+      minReplicas: ${{REPLICAS_SERVICE}}
+      deploymentStrategy:
+        privateStrategy: RollingUpdate
+      webServices:
+        public:
+          enabled: true
+          apiPath: "${APP_NAME}"
+      podSpec:
+        image: ${IMAGE}:${IMAGE_TAG}
+        resources:
+          limits:
+            cpu: ${CPU_LIMIT_SERVICE}
+            memory: ${MEMORY_LIMIT_SERVICE}
+          requests:
+            cpu: ${CPU_REQUEST_SERVICE}
+            memory: ${MEMORY_REQUEST_SERVICE}
+
+parameters:
+- name: IMAGE_TAG
+  description: Image tag
+  required: true
+  value: latest
+- name: IMAGE
+  description: Image name
+- name: ENV_NAME
+  description: ClowdEnv Name
+- name: REPLICAS_SERVICE
+  description: Replica count for backend service
+  value: "1"
+- name: APP_NAME
+  required: true
+  value: backend-starter-app-python
+- name: MEMORY_LIMIT_SERVICE
+  value: 512Mi
+- name: MEMORY_REQUEST_SERVICE
+  value: 256Mi
+- name: CPU_LIMIT_SERVICE
+  value: 500m
+- name: CPU_REQUEST_SERVICE
+  value: 200m

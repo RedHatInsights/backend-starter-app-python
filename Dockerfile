@@ -23,4 +23,4 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 WORKDIR /app-src
 
 ENTRYPOINT ["python", "manage.py"]
-CMD ["runserver"]
+CMD ["runserver", "0.0.0.0:8000"]

@@ -12,5 +12,5 @@ dependencies = [
 dev = ["pre-commit", "coverage"]
 
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=40.8.0"]
 build-backend = "setuptools.build_meta"
