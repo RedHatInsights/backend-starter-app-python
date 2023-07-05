@@ -12,11 +12,9 @@ BONFIRE_CONFIG=".bonfirecfg.yaml"
 CLOWDAPP_TEMPLATE=clowdapp.yaml
 CLOWDAPP_NAME={{cookiecutter.project_name | replace("_", "-")}}
 NAMESPACE=''
-PYTHON_CMD=python3
-PIP_CMD=pip3
 
 run: venv_check
-	${PYTHON_CMD} manage.py runserver
+	python manage.py runserver
 
 install_pre_commit: venv_check
 	# Remove any outdated tools
@@ -29,8 +27,8 @@ install_pre_commit: venv_check
 
 	# install pre-commit and configure it on our repo
 	make -C $(TEMPDIR_INFOSECTOOLS)/rh-pre-commit install
-	${PYTHON_CMD} -m rh_pre_commit.multi configure --configure-git-template --force
-	${PYTHON_CMD} -m rh_pre_commit.multi install --force --path ./
+	python -m rh_pre_commit.multi configure --configure-git-template --force
+	python -m rh_pre_commit.multi install --force --path ./
 
 	rm -rf $(TEMPDIR_INFOSECTOOLS)
 
@@ -41,27 +39,24 @@ endif
 
 venv_create:
 ifndef VIRTUAL_ENV
-	${PYTHON_CMD} -m venv $(VENV)
+	python -m venv $(VENV)
 	@echo "Virtual environment $(VENV) created, activate running: source $(VENV)/bin/activate"
 else
 	$(warning VIRTUAL_ENV variable present, already within a virtual environment?)
 endif
 
 install: venv_check
-	${PIP_CMD} install -e .
+	pip install -e .
 
 install_dev: venv_check
-	${PIP_CMD} install -e .[dev]
+	pip install -e .[dev]
 
 clean:
 	rm -rf __pycache__
 	find . -name "*.pyc" -exec rm -f {} \;
 
 test: venv_check install_dev
-	${PYTHON_CMD} manage.py test
-
-smoke-test: venv_check install_dev
-	@echo "Running smoke tests"
+	python manage.py test
 
 coverage: venv_check install_dev
 	coverage run --source="." manage.py test
@@ -77,7 +72,7 @@ run-container:
 	${CONTAINER_ENGINE} run -it --rm -p ${HOST_WEBPORT}:${CONTAINER_WEBPORT} ${IMAGE} runserver 0.0.0.0:8000
 
 build-image-docker: CONTAINER_ENGINE=docker
-build-image-docker: build-image
+build-image-docker: build-container
 
 run-container-docker: CONTAINER_ENGINE=docker
 run-container-docker: run-container
@@ -86,7 +81,7 @@ push-image:
 	${CONTAINER_ENGINE} push ${IMAGE}
 
 push-image-docker: CONTAINER_ENGINE=docker
-push-image-docker: push-image
+push-image-docker: push-container
 
 bonfire_process: 
 	@bonfire process -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME) \

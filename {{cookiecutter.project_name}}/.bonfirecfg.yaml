@@ -1,0 +1,15 @@
+# Bonfire deployment configuration
+
+# Defines where to fetch the file that defines application configs
+appsFile:
+  host: gitlab
+  repo: insights-platform/cicd-common
+  path: bonfire_configs/ephemeral_apps.yaml
+
+apps:
+- name: {{cookiecutter.project_name | replace("_", "-")}}
+  components:
+    - name: service
+      host: local
+      repo: ./
+      path: /clowdapp.yaml
