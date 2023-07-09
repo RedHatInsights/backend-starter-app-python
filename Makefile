@@ -72,7 +72,7 @@ run-container:
 	${CONTAINER_ENGINE} run -it --rm -p ${HOST_WEBPORT}:${CONTAINER_WEBPORT} ${IMAGE} runserver 0.0.0.0:8000
 
 build-image-docker: CONTAINER_ENGINE=docker
-build-image-docker: build-container
+build-image-docker: build-image
 
 run-container-docker: CONTAINER_ENGINE=docker
 run-container-docker: run-container
@@ -81,7 +81,7 @@ push-image:
 	${CONTAINER_ENGINE} push ${IMAGE}
 
 push-image-docker: CONTAINER_ENGINE=docker
-push-image-docker: push-container
+push-image-docker: push-image
 
 bonfire_process: $(BONFIRE_CONFIG)
 	@bonfire process -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME) \
