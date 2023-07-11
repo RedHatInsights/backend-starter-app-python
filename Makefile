@@ -88,7 +88,7 @@ push-image:
 push-image-docker: CONTAINER_ENGINE=docker
 push-image-docker: push-image
 
-bonfire_process: 
+bonfire_process:
 	@bonfire process -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME) \
 		-p service/IMAGE=$(IMAGE) -p service/IMAGE_TAG=$(IMAGE_TAG) -n $(NAMESPACE)
 
@@ -98,6 +98,6 @@ bonfire_reserve_namespace:
 bonfire_user_namespaces:
 	bonfire namespace list --mine
 
-bonfire_deploy: 
+bonfire_deploy:
 	bonfire deploy -c $(BONFIRE_CONFIG) $(CLOWDAPP_NAME) \
 		-p service/IMAGE=$(IMAGE) -p service/IMAGE_TAG=$(IMAGE_TAG) -n $(NAMESPACE)
