@@ -52,7 +52,7 @@ install_dev: venv_check
 	pip install -e .[dev]
 
 install_ci: venv_check
-	pip install -e .[ci]
+	pip install cookiecutter
 
 clean:
 	rm -rf __pycache__
