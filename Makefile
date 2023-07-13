@@ -51,6 +51,9 @@ install: venv_check
 install_dev: venv_check
 	pip install -e .[dev]
 
+install_ci: venv_check
+	pip install -e .[ci]
+
 clean:
 	rm -rf __pycache__
 	find . -name "*.pyc" -exec rm -f {} \;

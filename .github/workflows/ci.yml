@@ -26,7 +26,7 @@ jobs:
     - name: install cookiecutter
       run: |
         source .venv/bin/activate
-        pip install cookiecutter
+        make install_ci
       working-directory: ./checkout
     - name: run cookiecutter
       run: |
