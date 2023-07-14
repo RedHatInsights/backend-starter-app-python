@@ -7,9 +7,9 @@ appsFile:
   path: bonfire_configs/ephemeral_apps.yaml
 
 apps:
-- name: ##BONFIRE_APPNAME##
+- name: {{cookiecutter.project_name | replace("_", "-")}}
   components:
     - name: service
       host: local
-      repo: ##BONFIRE_REPODIR##
-      path: /##BONFIRE_CLOWDAPP_TEMPLATE##
+      repo: ./
+      path: /clowdapp.yaml

@@ -14,7 +14,7 @@ objects:
       name: "${APP_NAME}"
     deployments:
     - name: service
-      minReplicas: ${{REPLICAS_SERVICE}}
+      minReplicas: ${{ "{{" }}REPLICAS_SERVICE{{ "}}" }}
       deploymentStrategy:
         privateStrategy: RollingUpdate
       webServices:
@@ -45,7 +45,7 @@ parameters:
   value: "1"
 - name: APP_NAME
   required: true
-  value: backend-starter-app-python
+  value: {{cookiecutter.project_name | replace("_", "-")}}
 - name: MEMORY_LIMIT_SERVICE
   value: 512Mi
 - name: MEMORY_REQUEST_SERVICE

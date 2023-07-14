@@ -5,10 +5,31 @@ The purpose of this is to provide a fully functional implementation of simple ap
 
 This project uses Python 3 and Django REST Framework to run. We recommend python 3.10, but any version 3.6+ will work too. Once you have those all you will want to create and activate a virtual environment for the app and install Django. The project uses a Makefile to simplify getting started.
 
-This project makes use of [Makefile](https://www.gnu.org/software/make/). There are several recipes included to ease the task of installing and running the pplication.
+This project makes use of [Makefile](https://www.gnu.org/software/make/). There are several recipes included to ease the task of installing and running the application.
 
 **Optional for deploying to ephemeral environments:** There are recipes provided to deploy the application using [bonfire](https://pypi.org/project/crc-bonfire)
 so make sure the command is available in your PATH to run the deployment commands.
+
+## Getting started
+
+### Creating your project
+
+The starter app is configured as a template. Because of this you can't clone the repo directly, you will need to create your own repo first using [cookiecutter](https://cookiecutter.readthedocs.io/en/stable/index.html):
+
+1. Install cookiecutter
+2. Generate your project
+
+To install cookiecutter you can run:
+```shell
+python3 -m pip install --user cookiecutter
+```
+
+Once installed, you can generate your new project. This will create a new directory and initialize a git repo by default:
+```shell
+cookiecutter https://github.com/RedHatInsights/backend-starter-app-python.git
+```
+
+After that you will see your new repo in a directory with the same name as your project. `cd` to it and you will be ready run, test, build, and deploy your new project.
 
 ## Makefile recipes
 
@@ -17,7 +38,7 @@ check if there is a virtual environemnt activated, refusing to run otherwise.
 
 ### Running the project
 
-In order to be able to run the application locally the first time, after cloning the repository you'll probably have to:
+In order to be able to run the application locally the first time, after generating the repository you'll probably have to:
 
 1. Create and activate a Python virtual environment
 2. Install the project dependencies

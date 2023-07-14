@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: create Virtual env
+      run: make venv_create
+    - name: run tests
+      run: |
+        source .venv/bin/activate
+        make coverage-ci
+    - name: Upload code coverage report to Codecov.io
+      uses: codecov/codecov-action@v3
+      with:
+        token: ${{ "{{" }} secrets.CODECOV_TOKEN {{ "}}" }}
