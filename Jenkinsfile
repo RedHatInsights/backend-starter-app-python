@@ -36,7 +36,7 @@ pipeline {
         stage('Build the PR commit image') {
             steps {
                 withVault([configuration: configuration, vaultSecrets: secrets]) {
-                    sh './build_deploy.sh'
+                    sh 'make build-image'
                 }
 
                 sh 'mkdir -p artifacts'
@@ -48,7 +48,9 @@ pipeline {
                 stage('Run unit tests') {
                     steps {
                         withVault([configuration: configuration, vaultSecrets: secrets]) {
-                            sh 'bash -x ./unit_test.sh'
+                            sh '''make venv_create \
+                                source .venv/bin/activate \
+                                make test'''
                         }
                     }
                 }
@@ -57,29 +59,12 @@ pipeline {
                     steps {
                         withVault([configuration: configuration, vaultSecrets: secrets]) {
                             sh '''
-                                curl -s $CICD_URL/bootstrap.sh > .cicd_bootstrap.sh
-
-                                source ./.cicd_bootstrap.sh
-                                source "${CICD_ROOT}/deploy_ephemeral_env.sh"
-                                source "${CICD_ROOT}/cji_smoke_test.sh"
+                                make smoke-test
                             '''
                         }
 
                     }
                 }
-            }
-        }
-    }
-
-    post {
-        always{
-            withVault([configuration: configuration, vaultSecrets: secrets]) {
-                sh '''
-                    curl -s $CICD_URL/bootstrap.sh > .cicd_bootstrap.sh
-                    source ./.cicd_bootstrap.sh
-
-                    source "${CICD_ROOT}/post_test_results.sh"
-                '''
             }
         }
     }
