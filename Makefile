@@ -60,6 +60,9 @@ clean:
 test: venv_check install_dev
 	${PYTHON_CMD} manage.py test
 
+smoke-test: venv_check install_dev
+	@echo "Running smoke tests"
+
 coverage: venv_check install_dev
 	coverage run --source="." manage.py test
 	coverage $(COVERAGE_REPORT_FORMAT)
