@@ -56,6 +56,9 @@ install_dev: venv_check
 install_ci: venv_check
 	pip install cookiecutter
 
+install_ci: venv_check
+	pip install cookiecutter
+
 clean:
 	rm -rf __pycache__
 	find . -name "*.pyc" -exec rm -f {} \;
