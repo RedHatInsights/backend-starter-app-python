@@ -27,6 +27,11 @@ jobs:
       run: |
         source .venv/bin/activate
         make install
+    - name: run lint
+      working-directory: ./baking-test
+      run: |
+        source ../.venv/bin/activate
+        make lint
     - name: run tests
       working-directory: ./baking-test
       run: |

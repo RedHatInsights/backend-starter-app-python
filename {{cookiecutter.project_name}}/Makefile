@@ -46,6 +46,9 @@ else
 	$(warning VIRTUAL_ENV variable present, already within a virtual environment?)
 endif
 
+lint: install_dev
+	pre-commit run --all
+
 install: venv_check
 	${PYTHON_CMD} -m pip install -e .
 

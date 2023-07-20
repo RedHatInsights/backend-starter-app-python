@@ -10,7 +10,6 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pre-commit", "coverage", "crc-bonfire"]
-ci = ["cookiecutter"]
 
 [build-system]
 requires = ["setuptools>=40.8.0"]
