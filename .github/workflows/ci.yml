@@ -14,33 +14,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Set up Python 3
+      uses: actions/setup-python@v4
       with:
-        path: ./checkout
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
+        python-version: "3.11"
     - name: create Virtual env
       run: make venv_create
-      working-directory: ./checkout
     - name: install cookiecutter
       run: |
         source .venv/bin/activate
-        make install_ci
-      working-directory: ./checkout
     - name: run cookiecutter
       run: |
-        source ./checkout/.venv/bin/activate
-        git config --global user.email "you@example.com"
-        git config --global user.name "Your Name"
-        cookiecutter ./checkout --no-input
+        source .venv/bin/activate
+        make install
     - name: run tests
-      run: |
-        source ../checkout/.venv/bin/activate
-        make coverage-ci
       working-directory: ./baking-test
-    - name: Upload code coverage report to Codecov.io
-      uses: codecov/codecov-action@v3
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
-        directory: ./baking-test
+      run: |
+        source ../.venv/bin/activate
+        make test

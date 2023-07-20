@@ -52,9 +52,6 @@ install: venv_check
 install_dev: venv_check
 	${PYTHON_CMD} -m pip install -e .[dev]
 
-install_ci: venv_check
-	${PYTHON_CMD} -m pip install cookiecutter
-
 clean:
 	rm -rf __pycache__
 	find . -name "*.pyc" -exec rm -f {} \;
