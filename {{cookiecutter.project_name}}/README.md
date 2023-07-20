@@ -82,6 +82,7 @@ Once onboarded, the user should be able to log into the Ephemeral cluster to res
 
 #### Reserve a namespace
 
+If you don't already have bonfire installed, you can use `make install-dev` to install it to your virtual environment.
 Reserve a target namespace in the Ephemeral namespace and save it for later:
 
 ```
@@ -103,7 +104,6 @@ ephemeral-cv17hi
 
 #### Building and pushing the backend starter application image
 
-If you don't already have bonfire installed, you can use `make install-dev` to install it to your virtual environment.
 In order to deploy the backend starter app to an Ephemeral namespace, the user requires to push an image to
 an external registry accesible from the Ephemeral cluster.
 
